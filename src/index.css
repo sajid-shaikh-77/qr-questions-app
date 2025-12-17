@@ -112,7 +112,12 @@
   --sidebar-border: oklch(1 0 0 / 10%);
   --sidebar-ring: oklch(0.556 0 0);
 }
-
+.crescent-bg {
+  background: linear-gradient(180deg, rgba(6,78,71,0.06), transparent 40%);
+}
+.bg-crescent-soft {
+  background: #e6fffa;
+}
 @layer base {
   * {
     @apply border-border outline-ring/50;
