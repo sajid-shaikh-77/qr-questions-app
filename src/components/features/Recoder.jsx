@@ -48,7 +48,7 @@ export default function Recorder({ onSave }) {
     <div className="mt-3">
       {available ? (
         <div className="flex gap-3 items-center">
-          <Button type='button' onClick={() => (recording ? stop() : start())} className={`px-4 py-2  cursor-pointer  font-medium ${recording ? 'bg-red-500 text-white' : 'bg-[#064e47] text-white'}`}>
+          <Button type='button' onClick={() => (recording ? stop() : start())} className={`px-4 py-2 cursor-pointer  font-medium ${recording ? 'bg-red-500 text-white hover:bg-red-500 hover:scale-110' : 'bg-[#064e47] text-white hover:bg-[#064e47] hover:scale-110'}`}>
             {recording ? <Pause /> : <Mic />}
           </Button>
           {permissionError && <div className="text-red-600">{permissionError}</div>}
