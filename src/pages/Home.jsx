@@ -69,10 +69,10 @@ const Home = () => {
               </div>
             )}
 
-            <div className="mt-4">
+            <div className="mt-4 flex justify-center items-center">
               <Button
                 type="submit"
-                className="bg-[#064e47] text-white min-w-35"
+                className="bg-[#064e47] text-white min-w-35 hover:bg-[#064e47]"
               >
                 Submit Question
               </Button>
