@@ -8,7 +8,7 @@ import recordingAnimation from '../../assets/recording.json'
 
 const MAX_DURATION = 60;
 
-export default function RecorderNew({ onSave }) {
+export default function RecorderNew({ onSave, text, setText, isRecording, setIsRecording }) {
   const [recording, setRecording] = useState(false);
   const [timeLeft, setTimeLeft] = useState(MAX_DURATION);
   const [showHelp, setShowHelp] = useState(false);
@@ -20,7 +20,12 @@ export default function RecorderNew({ onSave }) {
   const isCanceledRef = useRef(false);
 
   async function start() {
+    if (text) {
+      setText("")
+    }
     try {
+
+      setIsRecording(true)
       // 🔥 DO NOT pre-check permission
       // Let the browser handle permission popup
       const stream = await navigator.mediaDevices.getUserMedia({
@@ -77,6 +82,7 @@ export default function RecorderNew({ onSave }) {
   function stop() {
     clearInterval(timerRef.current);
     setRecording(false);
+    setIsRecording(false)
     mediaRecorderRef.current?.stop();
   }
   function cencel() {
@@ -99,6 +105,7 @@ export default function RecorderNew({ onSave }) {
 
     // Reset UI
     setRecording(false);
+    setIsRecording(false)
     setTimeLeft(MAX_DURATION);
   }
   return (
@@ -109,17 +116,14 @@ export default function RecorderNew({ onSave }) {
         </div>
       }
       {
-        recording && <>
+        recording && <div>
           <Player
             autoplay={recording}
             loop
             src={recordingAnimation}
-            style={{ height: "64px", width: "100%" }}
+            style={{ height: "88px", width: "100%" }}
           />
-          {/* <div>
-          <iframe className="h-16 w-full" src="https://lottie.host/embed/38cc99df-f6ab-4d32-84c5-2530b6912ef6/W9L7BDPDVE.lottie"></iframe>
-        </div> */}
-        </>
+        </div>
 
       }
       <div className={`flex items-center mt-3 ${recording ? 'justify-center' : ''}`}>
@@ -127,6 +131,8 @@ export default function RecorderNew({ onSave }) {
           <TooltipTrigger asChild>
             <Button
               type="button"
+              size="lg"
+
               onClick={() => (recording ? stop() : start())}
               className={`text-white transition font-medium  ${recording ? "bg-red-600 hover:bg-red-500 hover:scale-110" : "bg-[#064e47] hover:bg-[#064e47] hover:scale-110"
                 }`}
@@ -146,6 +152,7 @@ export default function RecorderNew({ onSave }) {
               <Button
                 type="button"
                 variant="outline"
+                size="lg"
                 className="ml-5"
                 onClick={cencel}
               >
