@@ -1,10 +1,11 @@
 import React, { useState } from 'react'
-import { Button, Card, CardContent, CardHeader } from '../components/ui'
+import { Button, Card, CardContent, CardHeader, Tooltip, TooltipContent, TooltipTrigger } from '../components/ui'
 import RecorderNew from '../components/features/RecoderNew'
 
 const Home = () => {
   const [savedAudio, setSavedAudio] = useState(null)
   const [text, setText] = useState("")
+  const [isRecording, setIsRecording] = useState(false)
 
   function handleSaveAudio({ blob, dataUrl }) {
     setSavedAudio({ blob, dataUrl });
@@ -29,6 +30,11 @@ const Home = () => {
     setText("");
   }
 
+  const handleCancelSubmit = () => {
+    setSavedAudio(null)
+    setText("")
+    setIsRecording(null)
+  }
   return (
     <div className='max-w-4xl mx-auto p-6'>
       <Card>
@@ -40,15 +46,29 @@ const Home = () => {
 
         <CardContent>
           <form onSubmit={submitQuestion}>
-            <textarea
-              className="w-full border rounded p-3"
-              placeholder="Your question"
-              value={text}
-              onChange={e => setText(e.target.value)}
-            />
+            {
+              !isRecording && !savedAudio ? (
+                <textarea
+                  className="w-full border rounded p-3"
+                  placeholder="Type your question"
+                  value={text}
+                  onChange={e => setText(e.target.value)}
+                />
+              ) : <></>
+            }
+
 
             {!savedAudio && (
-              <RecorderNew onSave={handleSaveAudio} />
+              <>
+              <h1 className='font-bold mt-3'>Record your question</h1>
+              <RecorderNew
+                onSave={handleSaveAudio}
+                text={text}
+                setText={setText}
+                isRecording={isRecording}
+                setIsRecording={setIsRecording}
+              />
+              </>
             )}
 
             {savedAudio && (
@@ -58,25 +78,56 @@ const Home = () => {
                 </p>
                 <audio controls src={savedAudio.dataUrl} className="w-full mt-2" />
 
-                <Button
+                {/* <Button
                   type="button"
                   variant="outline"
                   className="mt-2"
                   onClick={() => setSavedAudio(null)}
                 >
                   Re-record
-                </Button>
+                </Button> */}
               </div>
             )}
 
-            <div className="mt-4 flex justify-center items-center">
-              <Button
-                type="submit"
-                className="bg-[#064e47] text-white min-w-35 hover:bg-[#064e47]"
-              >
-                Submit Question
-              </Button>
-            </div>
+            {text !== "" || savedAudio ?
+              (
+                <div className="mt-4 flex justify-center items-center gap-4">
+                  <Tooltip>
+                    <TooltipTrigger asChild>
+                      <Button
+                        type="submit"
+                        className="bg-[#064e47] text-white min-w-35 hover:bg-[#064e47] cursor-pointer"
+                      >
+                        Submit Question
+                      </Button>
+                    </TooltipTrigger>
+                    <TooltipContent>
+                      Submit
+                    </TooltipContent>
+                  </Tooltip>
+                  {/* Cancel */}
+                  <Tooltip>
+                    <TooltipTrigger asChild>
+                      <Button
+                        type="button"
+                        variant='outline'
+                        onClick={handleCancelSubmit}
+                        className="bg-red-700 text-white min-w-35 hover:bg-red-700 hover:text-white  cursor-pointer"
+                      >
+                        Cancel
+                      </Button>
+                    </TooltipTrigger>
+                    <TooltipContent>
+                      Cancel
+                    </TooltipContent>
+                  </Tooltip>
+
+                </div>
+              ) : (
+                null
+              )
+            }
+
           </form>
         </CardContent>
       </Card>
