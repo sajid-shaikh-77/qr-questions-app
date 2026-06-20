@@ -29,7 +29,6 @@ const AdminLogin = () => {
 async function login(data) {
   try {
     const response = await axios.post(`${baseURL}${urls.login}`,data);
-    debugger
     console.log(response.data);
     if(response.status === 200){
       navigate('/admin-panel')
