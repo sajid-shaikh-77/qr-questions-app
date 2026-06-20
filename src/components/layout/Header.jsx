@@ -9,7 +9,7 @@ const Header = () => {
       <div className="flex items-center gap-3">
         <div className="rounded-full text-white">
           {/* <Moon  color='#0f766e' fill='#0f766e' className='h-8 w-8' /> */}
-          <img src={logo} alt="" srcset=""className='h-8 w-8' />
+          <img src={logo} alt="" srcSet=""className='h-8 w-8' />
         </div>
         <div>
           {/* <h1 className="text-lg font-semibold">Quran Circle — Ask</h1> */}
@@ -19,7 +19,7 @@ const Header = () => {
         </div>
       </div>
       <nav className='flex items-ceter gap-4'>
-        <Link to={'/'} className='text-sm font-medium  flex items-center gap-1 text-[#0f766e]'><House />Home</Link>
+        {/* <Link to={'/'} className='text-sm font-medium  flex items-center gap-1 text-[#0f766e]'><House />Home</Link> */}
         <Link to={'/admin-login'} className='text-sm font-medium  flex items-center gap-1 text-[#0f766e]'><UserCog />Admin</Link>
       </nav>
     </header>
